@@ -1,0 +1,23 @@
+﻿<h3>ChatBox</h3>
+
+
+
+@code {
+    public Chat chat;
+
+    public HttpClient httpClient = new HttpClient();
+
+    private string API_KEY = "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";
+
+    public async Task FetchData()
+    {
+        chat = await httpClient.GetFromJsonAsync<Chat>("");
+    }
+    public class Chat
+    {
+        public int UserId { get; set; }
+        public string Title { get; set; }
+
+    }
+
+}
