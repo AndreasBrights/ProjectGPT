@@ -1,0 +1,5 @@
+dotnet add package electronnet.APi
+Dontnet new tool manifest
+dotnet tool install electronnet.cli
+dotnet electronize init
+dotnet electronize start
