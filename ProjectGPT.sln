@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34322.80
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectGPT", "ProjectGPT\ProjectGPT.csproj", "{22969C46-B3F3-4EF5-95EA-675E9A6B63A0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectGPT", "ProjectGPT\ProjectGPT.csproj", "{22969C46-B3F3-4EF5-95EA-675E9A6B63A0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SIgnalR Test", "SIgnalR Test\SIgnalR Test.csproj", "{11D09FF0-F0D1-43FC-AF72-B198A4CDD81B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{22969C46-B3F3-4EF5-95EA-675E9A6B63A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{22969C46-B3F3-4EF5-95EA-675E9A6B63A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{22969C46-B3F3-4EF5-95EA-675E9A6B63A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11D09FF0-F0D1-43FC-AF72-B198A4CDD81B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11D09FF0-F0D1-43FC-AF72-B198A4CDD81B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11D09FF0-F0D1-43FC-AF72-B198A4CDD81B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11D09FF0-F0D1-43FC-AF72-B198A4CDD81B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

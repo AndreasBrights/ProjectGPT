@@ -1,0 +1,33 @@
+﻿@using ProjectGPT.Models
+@using Markdig;
+@using ColorCode.Styling;
+
+<div class="conversation-area">
+
+    @foreach (var result in Conversation.ConversationHistory)
+    {
+        <div class="conversation-item @(result.User == "AI" ? "ai-reply" : "")">
+            <div>
+                @((MarkupString)@RenderHtmlContent(result.Message))
+            </div>
+        </div>
+    }
+
+</div>
+
+
+@code {
+    [Parameter]
+    public Conversation Conversation { get; set; }
+
+
+
+
+    // Funktionene använder markdig biblioteket för  att göra om content till HTML, och använder extentions igenom markdig.
+    private string RenderHtmlContent(string content) =>
+    Markdig.Markdown.ToHtml(markdown: content, pipeline: new MarkdownPipelineBuilder()
+    .UseAdvancedExtensions()
+    .UseSyntaxHighlighting(StyleDictionary.DefaultDark)
+    .Build()
+    );
+}

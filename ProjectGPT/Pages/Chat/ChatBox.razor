@@ -1,0 +1,95 @@
+﻿@using OpenAI.Net
+@using OpenAI_API;
+@using ProjectGPT.Models
+@using ProjectGPT.Pages.Chat.components
+
+@inject IOpenAIService OpenAIService
+
+
+
+<h3>ChatBox</h3>
+
+
+<div class="chat-container">
+
+    <Context SearchModel="@searchModel"></Context>
+    <div class="chat">
+        <ConversationView Conversation="conversation"></ConversationView>
+
+        <div class="input-area">
+
+            <LoadingIndicator IsBusy="@IsBusy" StatusText="@StatusText"></LoadingIndicator>
+
+            <ChatInput SearchModel="@searchModel" OnGenerateTextCompletionSubmitted="Search" IsBusy="@IsBusy"></ChatInput>
+
+        </div>
+    </div>
+
+</div>
+
+@code {
+    private bool IsBusy = false;
+    private string StatusText = "";
+
+    SearchModel searchModel = new SearchModel()
+        {
+            // SearchText = "Say this is a test", / förbestämt vad du skriver
+            SystemContext = "You are a helpfull assistant", // Ge kommando för "vem" GPT är.
+            AssistantContext = "Say this is a test" //Ticket: 1000, title: test Content: test
+        };
+
+    Conversation conversation = new Conversation();
+
+
+
+    public async Task Search()
+    {
+        conversation.AddItem("User", searchModel.SearchText);
+
+
+
+        var messagesRequest = new List<Message>()
+        {
+
+            Message.Create(ChatRoleType.System, searchModel.SystemContext),
+            Message.Create(ChatRoleType.Assistant, searchModel.AssistantContext),
+
+        };
+        messagesRequest.Add(Message.Create(ChatRoleType.User, searchModel.SearchText));
+
+        conversation.AddItem("AI", "");
+
+
+        SetIsBusy(true, "Generating text...");
+        try
+        {
+
+
+            await foreach (var result in OpenAIService.Chat.GetStream(messagesRequest, o =>
+                {
+                    o.N = 1;
+                    o.MaxTokens = 1024;
+                }))
+            {
+
+                this.conversation.AppendToCurrentItem(result.Result!.Choices[0].Delta.Content);
+                StateHasChanged();
+            }
+        }
+        catch(Exception ex)
+        {
+            Console.WriteLine(ex);
+        }
+
+        SetIsBusy(false, "");
+
+    searchModel.AssistantContext += conversation.GetCurrentItemMessage();
+    }
+
+
+    private void SetIsBusy(bool isBusy, string statusText)
+    {
+        this.IsBusy = isBusy;
+        this.StatusText = statusText;
+    }
+}

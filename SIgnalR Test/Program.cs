@@ -1,35 +1,20 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
-using ElectronNET.API;
-using OpenAI.Net;
+using SIgnalR_Test.Data;
+using SIgnalR_Test.Hubs;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddSignalR();
 builder.Services.AddServerSideBlazor();
-
-builder.Services.AddOpenAIServices(o =>
-{
-    o.ApiKey = builder.Configuration["OpenAI:ApiKey"];
-});
-
-
-
-
-builder.Services.AddElectron();
-builder.WebHost.UseElectron(args);
-if (HybridSupport.IsElectronActive)
-{
-    Task.Run(async () =>{ 
-        var window = await Electron.WindowManager.CreateWindowAsync();
-        window.OnClose += () => {
-         Electron.App.Quit();
-        };
-    });
-}
+builder.Services.AddSingleton<WeatherForecastService>();
 
 var app = builder.Build();
 
+
+app.MapHub<ChatHub>("/chathub");
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
@@ -46,5 +31,6 @@ app.UseRouting();
 
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
+app.MapHub<ChatHub>("/chathub");
 
 app.Run();

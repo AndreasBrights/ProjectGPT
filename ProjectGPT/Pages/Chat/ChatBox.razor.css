@@ -1,0 +1,19 @@
+﻿.chat-container {
+    display: flex;
+}
+
+.chat {
+    min-height: calc(100hv);
+    position: relative;
+    flex: 1;
+    --tw-bg-opasity: 1;
+    background-color: rgba(52, 52, 65, var(--tw-bg-opasity));
+}
+
+    .chat > input-area {
+        bottom: 10px;
+        position: absolute;
+        width: 80%;
+        left: 10%;
+        text-align: center;
+    }

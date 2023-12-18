@@ -1,0 +1,34 @@
+﻿@using ProjectGPT.Models
+@using ProjectGPT.Pages.Chat.components
+
+
+@if (IsVisible)
+{
+    <div>
+        <EditForm Model="@SearchModel" class="conversation-context-form">
+            <h4>System</h4>
+            <InputTextArea title="system" @bind-bind-Value="@searchModel.SystemContext">
+
+            </InputTextArea>
+
+
+            <h4>Assistant</h4>
+            <InputTextArea title="assistant" @bind-bind-Value="@searchModel.AssistantContext">
+
+            </InputTextArea>
+
+        </EditForm>
+
+
+    </div>
+}
+
+
+
+@code {
+    public SearchModel SearchModel { get; set; }
+
+
+    [Parameter]
+    public bool IsVisible { get; set; }
+}
