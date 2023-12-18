@@ -2,7 +2,9 @@
 @using Markdig;
 @using ColorCode.Styling;
 
-<div class="conversation-area">
+@inject IJSRuntime JavaScript;
+
+<div class="conversation-area" @ref="ChatRef">
 
     @foreach (var result in Conversation.ConversationHistory)
     {
@@ -20,6 +22,7 @@
     [Parameter]
     public Conversation Conversation { get; set; }
 
+    private ElementReference ChatRef;
 
 
 
@@ -30,4 +33,16 @@
     .UseSyntaxHighlighting(StyleDictionary.DefaultDark)
     .Build()
     );
+
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        ScrollToEnd();
+        return base.OnAfterRenderAsync(firstRender);
+    }
+
+    private void ScrollToEnd()
+    {
+        JavaScript.InvokeVoidAsync("ChatGPTMethods.scrollToEnd", new object[] { ChatRef });
+    }
+
 }

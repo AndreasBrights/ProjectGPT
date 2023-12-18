@@ -6,16 +6,12 @@
 @inject IOpenAIService OpenAIService
 
 
-
-<h3>ChatBox</h3>
-
-
 <div class="chat-container">
 
-    <Context SearchModel="@searchModel"></Context>
+    <Context SearchModel="@searchModel" IsVisible=@VisibleContext></Context>
     <div class="chat">
         <ConversationView Conversation="conversation"></ConversationView>
-
+        <ContextButton IsOpen="@VisibleContext" OnClicked="HideShow"></ContextButton>
         <div class="input-area">
 
             <LoadingIndicator IsBusy="@IsBusy" StatusText="@StatusText"></LoadingIndicator>
@@ -28,6 +24,8 @@
 </div>
 
 @code {
+    private bool VisibleContext = true;
+
     private bool IsBusy = false;
     private string StatusText = "";
 
@@ -83,7 +81,7 @@
 
         SetIsBusy(false, "");
 
-    searchModel.AssistantContext += conversation.GetCurrentItemMessage();
+        searchModel.AssistantContext += conversation.GetCurrentItemMessage();
     }
 
 
@@ -92,4 +90,10 @@
         this.IsBusy = isBusy;
         this.StatusText = statusText;
     }
+
+    private async Task HideShow()
+    {
+        this.VisibleContext = !this.VisibleContext;
+    }
+
 }
